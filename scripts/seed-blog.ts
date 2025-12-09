@@ -1,4 +1,4 @@
-import { PrismaClient } from '../lib/generated/prisma'
+import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
@@ -367,12 +367,12 @@ async function seedBlogPosts() {
             publishedAt: postData.publishedAt,
             authorId: adminUser.id,
             categories: {
-              create: categories.map(cat => ({
+              create: categories.map((cat: { id: string }) => ({
                 category: { connect: { id: cat.id } }
               }))
             },
             tags: {
-              create: tags.map(tag => ({
+              create: tags.map((tag: { id: string }) => ({
                 tag: { connect: { id: tag.id } }
               }))
             }
