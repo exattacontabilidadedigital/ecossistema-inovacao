@@ -2,4 +2,4 @@
 cmd = "pnpm run build:docker"
 
 [start]
-cmd = "pnpm run debug-login && pnpm start"
+cmd = "pnpm run db:push && pnpm run init-database && pnpm start"

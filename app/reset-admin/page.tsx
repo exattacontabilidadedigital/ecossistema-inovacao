@@ -1,6 +1,28 @@
 'use client'
 
 export default function ResetAdmin() {
+  const handleSuperForce = async () => {
+    try {
+      const response = await fetch('/api/super-force', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({})
+      })
+      
+      const data = await response.json()
+      
+      if (data.success) {
+        alert(`✅ ${data.message}\n\n${data.note}\n\nCredenciais:\nEmail: ${data.credentials.email}\nSenha: ${data.credentials.password}\n\nAgora teste o login!`)
+      } else {
+        alert(`❌ Erro: ${data.error}`)
+      }
+    } catch (error) {
+      alert(`❌ Erro: ${error}`)
+    }
+  }
+
   const handleForceDb = async () => {
     try {
       const response = await fetch('/api/force-db', {

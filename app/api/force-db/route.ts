@@ -152,20 +152,25 @@ export async function POST() {
       
       console.log('✅ Todas as tabelas criadas!')
       
-      // Verificar se admin já existe
+      // Verificar se admin já existe usando Prisma normal
       console.log('🔍 Verificando admin existente...')
       const adminEmail = process.env.ADMIN_EMAIL || 'admin@inova.ma'
       
-      const existingAdmin = await prisma.$executeRawUnsafe(`
-        SELECT * FROM "User" WHERE email = ?
-      `, adminEmail)
+      let existingAdmin = null
+      try {
+        existingAdmin = await prisma.user.findUnique({
+          where: { email: adminEmail }
+        })
+      } catch (error) {
+        console.log('❌ Erro ao buscar admin (normal se tabela não existe):', error)
+      }
       
-      if (Array.isArray(existingAdmin) && existingAdmin.length > 0) {
+      if (existingAdmin) {
         console.log('👤 Admin já existe')
         return NextResponse.json({
           success: true,
           message: 'Banco criado e admin já existe',
-          admin: existingAdmin[0]
+          admin: existingAdmin
         })
       }
       
@@ -183,17 +188,18 @@ export async function POST() {
       
       console.log('✅ Admin criado com sucesso!')
       
-      // Verificar criação
-      const newAdmin = await prisma.$executeRawUnsafe(`
-        SELECT id, email, name, role FROM "User" WHERE email = ?
-      `, adminEmail)
+      // Verificar criação usando Prisma
+      const newAdmin = await prisma.user.findUnique({
+        where: { email: adminEmail },
+        select: { id: true, email: true, name: true, role: true }
+      })
       
       await prisma.$disconnect()
       
       return NextResponse.json({
         success: true,
         message: 'Banco de dados criado do zero e admin inserido!',
-        admin: Array.isArray(newAdmin) ? newAdmin[0] : newAdmin,
+        admin: newAdmin,
         credentials: {
           email: adminEmail,
           password: adminPassword
