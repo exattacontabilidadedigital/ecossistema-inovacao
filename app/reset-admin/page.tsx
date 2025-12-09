@@ -1,6 +1,28 @@
 'use client'
 
 export default function ResetAdmin() {
+  const handleForceDb = async () => {
+    try {
+      const response = await fetch('/api/force-db', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({})
+      })
+      
+      const data = await response.json()
+      
+      if (data.success) {
+        alert(`✅ ${data.message}\n\nCredenciais:\nEmail: ${data.credentials.email}\nSenha: ${data.credentials.password}\n\nAgora teste o login!`)
+      } else {
+        alert(`❌ Erro: ${data.error}`)
+      }
+    } catch (error) {
+      alert(`❌ Erro: ${error}`)
+    }
+  }
+
   const handleInit = async () => {
     try {
       const response = await fetch('/api/init-db', {
@@ -54,6 +76,13 @@ export default function ResetAdmin() {
           <p className="text-gray-600 text-center">
             Use primeiro "Inicializar BD" para criar as tabelas, depois "Reset Admin" se necessário.
           </p>
+          
+          <button
+            onClick={handleForceDb}
+            className="w-full bg-red-600 text-white py-3 px-4 rounded-lg hover:bg-red-700 transition-colors font-medium"
+          >
+            ⚡ FORÇA BRUTA: Criar BD + Admin
+          </button>
           
           <button
             onClick={handleInit}
