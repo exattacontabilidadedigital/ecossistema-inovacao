@@ -1,18 +1,28 @@
-import { PrismaClient } from '../lib/generated/prisma'
+import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
 
 async function main() {
+  // Validar variáveis de ambiente
+  const adminEmail = process.env.ADMIN_EMAIL
+  const adminPassword = process.env.ADMIN_PASSWORD
+  const adminName = process.env.ADMIN_NAME || 'Administrador'
+  
+  if (!adminEmail || !adminPassword) {
+    console.log('⚠️  ADMIN_EMAIL e ADMIN_PASSWORD são obrigatórias para seed')
+    return
+  }
+  
   // Create admin user
-  const hashedPassword = await bcrypt.hash('admin123', 10)
+  const hashedPassword = await bcrypt.hash(adminPassword, 12)
   
   const adminUser = await prisma.user.upsert({
-    where: { email: 'admin@inova.ma' },
+    where: { email: adminEmail },
     update: {},
     create: {
-      email: 'admin@inova.ma',
-      name: 'Administrador',
+      email: adminEmail,
+      name: adminName,
       password: hashedPassword,
       role: 'ADMIN',
       active: true,

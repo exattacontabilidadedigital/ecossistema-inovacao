@@ -1,8 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { writeFile } from 'fs/promises'
+import { writeFile, mkdir } from 'fs/promises'
 import { join } from 'path'
+import { existsSync } from 'fs'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+
+// Diretório de uploads - usa volume persistente em produção
+const getUploadDir = () => {
+  if (process.env.NODE_ENV === 'production') {
+    return process.env.UPLOAD_DIR || '/data/uploads'
+  }
+  return join(process.cwd(), 'public/images')
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -38,12 +47,18 @@ export async function POST(request: NextRequest) {
     const extension = originalName.split('.').pop()
     const filename = `${timestamp}-${Math.random().toString(36).substring(2)}.${extension}`
 
-    // Save to public/images directory
-    const path = join(process.cwd(), 'public/images', filename)
-    await writeFile(path, buffer)
+    // Garantir que o diretório existe
+    const uploadDir = getUploadDir()
+    if (!existsSync(uploadDir)) {
+      await mkdir(uploadDir, { recursive: true })
+    }
+
+    // Save file
+    const filePath = join(uploadDir, filename)
+    await writeFile(filePath, buffer)
 
     // Return the public URL
-    const imageUrl = `/images/${filename}`
+    const imageUrl = `/uploads/${filename}`
 
     return NextResponse.json({ 
       success: true, 

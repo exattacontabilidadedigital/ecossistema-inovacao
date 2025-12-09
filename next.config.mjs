@@ -3,6 +3,14 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  async rewrites() {
+    return [
+      {
+        source: '/uploads/:filename',
+        destination: '/api/uploads/:filename',
+      },
+    ]
+  },
   async headers() {
     return [
       {
