@@ -51,7 +51,7 @@ export default function ToolbarPlugin() {
   }, [editor, updateToolbar])
 
   const formatText = (format: string) => {
-    editor.dispatchCommand(FORMAT_TEXT_COMMAND, format)
+    editor.dispatchCommand(FORMAT_TEXT_COMMAND, format as any)
   }
 
   const formatBulletList = () => {
