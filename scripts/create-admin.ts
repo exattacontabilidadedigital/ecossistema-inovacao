@@ -33,21 +33,26 @@ async function createInitialAdmin() {
       return
     }
 
-    // Criar usuário admin padrão
-    const defaultEmail = process.env.ADMIN_EMAIL || 'admin@iniva.com'
-    const defaultName = process.env.ADMIN_NAME || 'Administrador'
-    const defaultPassword = process.env.ADMIN_PASSWORD || 'admin123456'
+    // Validar variáveis de ambiente obrigatórias
+    const defaultEmail = process.env.ADMIN_EMAIL
+    const defaultName = process.env.ADMIN_NAME
+    const defaultPassword = process.env.ADMIN_PASSWORD
+    
+    if (!defaultEmail || !defaultPassword) {
+      console.error('❌ Variáveis ADMIN_EMAIL e ADMIN_PASSWORD são obrigatórias')
+      process.exit(1)
+    }
     
     console.log('🔄 Criando usuário admin...')
     console.log('📧 Email:', defaultEmail)
-    console.log('👤 Nome:', defaultName)
+    console.log('👤 Nome:', defaultName || 'Administrador')
     
     const hashedPassword = await bcrypt.hash(defaultPassword, 12)
 
     const adminUser = await prisma.user.create({
       data: {
         email: defaultEmail,
-        name: defaultName,
+        name: defaultName || 'Administrador',
         password: hashedPassword,
         role: 'ADMIN',
         active: true
@@ -57,9 +62,8 @@ async function createInitialAdmin() {
     console.log('✅ Usuário admin criado com sucesso!')
     console.log(`📧 Email: ${adminUser.email}`)
     console.log(`👤 Nome: ${adminUser.name}`)
-    console.log(`🔑 Senha: ${defaultPassword}`)
     console.log('')
-    console.log('⚠️  IMPORTANTE: Altere a senha após o primeiro login!')
+    console.log('🎉 Admin criado com credenciais definidas nas variáveis de ambiente!')
 
   } catch (error) {
     console.error('❌ Erro ao criar usuário admin:', error)

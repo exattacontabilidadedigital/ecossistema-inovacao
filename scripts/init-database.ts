@@ -34,7 +34,6 @@ async function setupDatabase() {
 
     // Verificar se existe usuário admin
     console.log('🔍 Verificando usuário admin...')
-    const adminEmail = process.env.ADMIN_EMAIL || 'admin@inova.ma'
     
     const existingAdmin = await prisma.user.findFirst({
       where: {
@@ -47,20 +46,27 @@ async function setupDatabase() {
       return
     }
 
-    // Criar usuário admin
-    const adminName = process.env.ADMIN_NAME || 'Administrador'
-    const adminPassword = process.env.ADMIN_PASSWORD || 'Inova@2025#Admin'
+    // Validar variáveis de ambiente obrigatórias
+    const adminEmail = process.env.ADMIN_EMAIL
+    const adminName = process.env.ADMIN_NAME
+    const adminPassword = process.env.ADMIN_PASSWORD
+    
+    if (!adminEmail || !adminPassword) {
+      console.log('⚠️  Variáveis ADMIN_EMAIL e ADMIN_PASSWORD são obrigatórias para criar admin')
+      console.log('⚠️  Pulando criação do usuário admin...')
+      return
+    }
     
     console.log('🔄 Criando usuário admin...')
     console.log('📧 Email:', adminEmail)
-    console.log('👤 Nome:', adminName)
+    console.log('👤 Nome:', adminName || 'Administrador')
     
     const hashedPassword = await bcrypt.hash(adminPassword, 12)
 
     const adminUser = await prisma.user.create({
       data: {
         email: adminEmail,
-        name: adminName,
+        name: adminName || 'Administrador',
         password: hashedPassword,
         role: 'ADMIN',
         active: true
@@ -69,10 +75,8 @@ async function setupDatabase() {
 
     console.log('✅ Usuário admin criado com sucesso!')
     console.log(`📧 Email: ${adminUser.email}`)
-    console.log(`🔑 Senha: ${adminPassword}`)
     console.log('')
     console.log('🎉 Banco de dados inicializado com sucesso!')
-    console.log('⚠️  IMPORTANTE: Altere a senha após o primeiro login!')
 
   } catch (error) {
     console.error('❌ Erro ao inicializar banco:', error)

@@ -7,12 +7,21 @@ export async function createSuperAdmin() {
   })
 
   if (!existingSuperAdmin) {
-    const hashedPassword = await bcryptjs.hash('admin123', 10)
+    const adminEmail = process.env.ADMIN_EMAIL
+    const adminPassword = process.env.ADMIN_PASSWORD
+    const adminName = process.env.ADMIN_NAME || 'Super Administrador'
+    
+    if (!adminEmail || !adminPassword) {
+      console.log('⚠️  Variáveis ADMIN_EMAIL e ADMIN_PASSWORD são obrigatórias')
+      return
+    }
+    
+    const hashedPassword = await bcryptjs.hash(adminPassword, 12)
     
     await prisma.user.create({
       data: {
-        email: 'admin@ecossistema.ma.gov.br',
-        name: 'Super Administrador',
+        email: adminEmail,
+        name: adminName,
         password: hashedPassword,
         role: 'SUPER_ADMIN',
         active: true
@@ -20,8 +29,7 @@ export async function createSuperAdmin() {
     })
     
     console.log('✅ Super admin created successfully!')
-    console.log('Email: admin@ecossistema.ma.gov.br')
-    console.log('Password: admin123')
+    console.log(`Email: ${adminEmail}`)
   } else {
     console.log('✅ Super admin already exists!')
   }
