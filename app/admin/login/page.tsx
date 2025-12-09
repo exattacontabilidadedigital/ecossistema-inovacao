@@ -26,7 +26,8 @@ export default function AdminLogin() {
       if (result?.error) {
         setError('Email ou senha inválidos')
       } else {
-        router.push('/admin/dashboard')
+        // Força redirecionamento usando window.location
+        window.location.href = '/admin/dashboard'
       }
     } catch (error) {
       setError('Erro interno. Tente novamente.')

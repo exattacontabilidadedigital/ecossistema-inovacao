@@ -61,6 +61,18 @@ export const authOptions: NextAuthOptions = {
         session.user.role = token.role
       }
       return session
+    },
+    async redirect({ url, baseUrl }: any) {
+      // Se já está na URL base ou em uma sub-rota válida, permite
+      if (url.startsWith(baseUrl)) {
+        return url
+      }
+      // Se é uma URL relativa, anexa à base
+      if (url.startsWith('/')) {
+        return baseUrl + url
+      }
+      // Por padrão, redireciona para o dashboard
+      return baseUrl + '/admin/dashboard'
     }
   },
   pages: {
