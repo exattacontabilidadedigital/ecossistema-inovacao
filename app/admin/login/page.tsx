@@ -112,7 +112,7 @@ export default function AdminLogin() {
             <p className="text-xs text-gray-500">
               Credenciais de teste:<br/>
               Email: admin@inova.ma<br/>
-              Senha: admin123
+              Senha: Inova@2025#Admin
             </p>
           </div>
         </div>
