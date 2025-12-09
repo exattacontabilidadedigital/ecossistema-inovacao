@@ -9,6 +9,8 @@
     "lint": "eslint .",
     "start": "next start",
     "seed:blog": "tsx scripts/seed-blog.ts",
+    "export-data": "tsx scripts/export-data.ts",
+    "import-data": "tsx scripts/import-data.ts",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "postinstall": "cross-env DATABASE_URL=file:./dev.db prisma generate"

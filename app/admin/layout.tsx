@@ -12,6 +12,7 @@ import {
   Calendar, 
   MessageCircle, 
   FileText,
+  Database,
   LogOut,
   Menu,
   X
@@ -96,6 +97,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       name: 'Blog',
       href: '/admin/blog',
       icon: FileText,
+    },
+    {
+      name: 'Importar Dados',
+      href: '/admin/import-data',
+      icon: Database,
     },
   ]
 
