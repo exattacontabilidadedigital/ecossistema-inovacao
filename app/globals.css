@@ -1,9 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* Quill Editor Styles */
-@import "quill/dist/quill.snow.css";
-
 * {
   font-family: 'Inter', ui-sans-serif, system-ui, sans-serif !important;
 }
