@@ -1,0 +1,5 @@
+[phases.build]
+cmd = "pnpm run build:docker"
+
+[start]
+cmd = "pnpm start"
