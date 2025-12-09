@@ -1,0 +1,168 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        String     @id @default(cuid())
+  email     String     @unique
+  name      String
+  password  String
+  role      String     @default("EDITOR")
+  active    Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  blogPosts BlogPost[]
+
+  @@map("users")
+}
+
+model Hub {
+  id           String        @id @default(cuid())
+  name         String
+  location     String
+  address      String
+  description  String
+  image        String?
+  services     String
+  hours        String
+  active       Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  appointments Appointment[]
+
+  @@map("hubs")
+}
+
+model Actor {
+  id        String   @id @default(cuid())
+  name      String
+  logo      String?
+  mission   String
+  programs  String
+  website   String?
+  icon      String
+  color     String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("actors")
+}
+
+model Appointment {
+  id           String   @id @default(cuid())
+  name         String
+  email        String
+  organization String?
+  phone        String?
+  purpose      String
+  date         DateTime
+  time         String
+  status       String   @default("PENDING")
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  hubId        String
+  duration     String?
+  hub          Hub      @relation(fields: [hubId], references: [id], onDelete: Cascade)
+
+  @@map("appointments")
+}
+
+model Contact {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  status    String   @default("NEW")
+  replied   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("contacts")
+}
+
+model BlogPost {
+  id          String         @id @default(cuid())
+  title       String
+  slug        String         @unique
+  content     String
+  excerpt     String?
+  image       String?
+  status      String         @default("DRAFT")
+  publishedAt DateTime?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  authorId    String
+  categories  BlogCategory[]
+  author      User           @relation(fields: [authorId], references: [id])
+  tags        BlogTag[]
+
+  @@map("blog_posts")
+}
+
+model Category {
+  id          String         @id @default(cuid())
+  name        String         @unique
+  slug        String         @unique
+  description String?
+  color       String         @default("#6B7280")
+  active      Boolean        @default(true)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  blogPosts   BlogCategory[]
+
+  @@map("categories")
+}
+
+model Tag {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  slug      String    @unique
+  color     String    @default("#6B7280")
+  active    Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  blogPosts BlogTag[]
+
+  @@map("tags")
+}
+
+model BlogCategory {
+  blogPostId String
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  blogPost   BlogPost @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
+
+  @@id([blogPostId, categoryId])
+  @@map("blog_categories")
+}
+
+model BlogTag {
+  blogPostId String
+  tagId      String
+  tag        Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  blogPost   BlogPost @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
+
+  @@id([blogPostId, tagId])
+  @@map("blog_tags")
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  type      String   @default("text")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("settings")
+}

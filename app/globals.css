@@ -1,0 +1,296 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* Quill Editor Styles */
+@import "quill/dist/quill.snow.css";
+
+* {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif !important;
+}
+
+body {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif !important;
+}
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Nova paleta de cores - Inovação Dinâmica do Maranhão */
+  --background: oklch(0.99 0.005 240);
+  --foreground: oklch(0.15 0.02 240);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.15 0.02 240);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.15 0.02 240);
+  
+  /* Cores principais - Mais vibrantes e energéticas */
+  --primary: oklch(0.55 0.25 260); /* Azul-roxo inovador */
+  --primary-foreground: oklch(0.99 0 0);
+  --primary-vibrant: oklch(0.6 0.28 250); /* Azul vibrante para CTAs */
+  
+  --secondary: oklch(0.65 0.2 140); /* Verde energia renovada */
+  --secondary-foreground: oklch(0.99 0 0);
+  
+  --accent: oklch(0.7 0.22 45); /* Laranja inovação */
+  --accent-foreground: oklch(0.99 0 0);
+  --accent-electric: oklch(0.65 0.25 180); /* Ciano elétrico */
+  
+  /* Cores especiais */
+  --innovation-glow: oklch(0.7 0.3 285); /* Roxo brilhante */
+  --success-bright: oklch(0.7 0.25 150); /* Verde sucesso */
+  --warning-energy: oklch(0.75 0.22 70); /* Amarelo energia */
+  
+  --muted: oklch(0.96 0.01 240);
+  --muted-foreground: oklch(0.5 0.02 240);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.9 0.01 240);
+  --input: oklch(0.9 0.01 240);
+  --ring: oklch(0.5 0.18 240);
+  /* Charts com nova paleta */
+  --chart-1: oklch(0.55 0.25 260);
+  --chart-2: oklch(0.65 0.2 140);
+  --chart-3: oklch(0.7 0.22 45);
+  --chart-4: oklch(0.65 0.25 180);
+  --chart-5: oklch(0.7 0.3 285);
+  --radius: 0.75rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.18 0.02 240);
+  --sidebar-primary: oklch(0.5 0.18 240);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.96 0.01 240);
+  --sidebar-accent-foreground: oklch(0.18 0.02 240);
+  --sidebar-border: oklch(0.9 0.01 240);
+  --sidebar-ring: oklch(0.5 0.18 240);
+}
+
+.dark {
+  --background: oklch(0.14 0.02 240);
+  --foreground: oklch(0.96 0.005 240);
+  --card: oklch(0.18 0.02 240);
+  --card-foreground: oklch(0.96 0.005 240);
+  --popover: oklch(0.18 0.02 240);
+  --popover-foreground: oklch(0.96 0.005 240);
+  --primary: oklch(0.6 0.25 260);
+  --primary-foreground: oklch(0.14 0.02 240);
+  --primary-vibrant: oklch(0.65 0.28 250);
+  --secondary: oklch(0.7 0.2 140);
+  --secondary-foreground: oklch(0.14 0.02 240);
+  --accent: oklch(0.75 0.22 45);
+  --accent-foreground: oklch(0.14 0.02 240);
+  --accent-electric: oklch(0.7 0.25 180);
+  --innovation-glow: oklch(0.75 0.3 285);
+  --muted: oklch(0.22 0.02 240);
+  --muted-foreground: oklch(0.65 0.02 240);
+  --destructive: oklch(0.5 0.2 27);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.26 0.02 240);
+  --input: oklch(0.26 0.02 240);
+  --ring: oklch(0.6 0.18 240);
+  --chart-1: oklch(0.6 0.25 260);
+  --chart-2: oklch(0.7 0.2 140);
+  --chart-3: oklch(0.75 0.22 45);
+  --chart-4: oklch(0.7 0.25 180);
+  --chart-5: oklch(0.75 0.3 285);
+  --sidebar: oklch(0.18 0.02 240);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.6 0.18 240);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.22 0.02 240);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.26 0.02 240);
+  --sidebar-ring: oklch(0.6 0.18 240);
+}
+
+@theme inline {
+  --font-sans: "Geist", "Geist Fallback";
+  --font-mono: "Geist Mono", "Geist Mono Fallback";
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* Gradientes modernos */
+.gradient-innovation {
+  background: linear-gradient(135deg, 
+    var(--primary), 
+    var(--accent), 
+    var(--accent-electric)
+  );
+}
+
+.gradient-cta {
+  background: linear-gradient(135deg,
+    var(--primary-vibrant),
+    var(--innovation-glow)
+  );
+}
+
+/* Efeitos modernos para botões */
+.btn-glow {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 
+    0 4px 15px oklch(0.55 0.25 260 / 0.2),
+    0 0 20px oklch(0.7 0.3 285 / 0.1);
+}
+
+.btn-glow:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 25px oklch(0.55 0.25 260 / 0.3),
+    0 0 30px oklch(0.7 0.3 285 / 0.2);
+}
+
+.btn-glow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.2), 
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.btn-glow:hover::before {
+  left: 100%;
+}
+
+/* Cards interativos */
+.card-hover-glow {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border: 1px solid var(--border);
+}
+
+.card-hover-glow:hover {
+  border-color: var(--primary-vibrant);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    0 20px 40px oklch(0.5 0.1 240 / 0.1),
+    0 0 0 1px oklch(0.6 0.28 250 / 0.2);
+}
+
+/* Background animado para hero */
+.hero-animated {
+  background: linear-gradient(135deg, 
+    oklch(0.99 0.005 240),
+    oklch(0.95 0.02 260 / 0.1),
+    oklch(0.97 0.015 45 / 0.08),
+    oklch(0.98 0.01 180 / 0.05)
+  );
+  position: relative;
+}
+
+.hero-animated::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, oklch(0.6 0.28 250 / 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, oklch(0.7 0.22 45 / 0.08) 0%, transparent 50%);
+  animation: float 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-20px) scale(1.02); }
+}
+
+/* Números com efeito especial */
+.stat-glow {
+  background: var(--gradient-innovation);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.2) drop-shadow(0 0 10px currentColor); }
+}
+
+/* Custom Quill Editor Styles */
+.ql-editor {
+  min-height: 100px !important;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif !important;
+  font-size: 14px;
+}
+
+.ql-container {
+  border-bottom-left-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
+}
+
+.ql-toolbar {
+  border-top-left-radius: 0.375rem;
+  border-top-right-radius: 0.375rem;
+  padding: 6px 8px;
+}
+
+.ql-toolbar .ql-formats {
+  margin-right: 12px;
+}
+
+.ql-editor.ql-blank::before {
+  font-style: normal;
+  color: hsl(var(--muted-foreground));
+}
+
+.rich-text-editor .ql-container {
+  font-size: 14px;
+}
+
+.rich-text-editor .ql-editor {
+  padding: 8px 12px;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+}
